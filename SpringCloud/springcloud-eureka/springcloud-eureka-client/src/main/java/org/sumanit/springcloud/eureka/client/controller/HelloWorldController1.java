@@ -1,6 +1,5 @@
 package org.sumanit.springcloud.eureka.client.controller;
 
-import com.netflix.discovery.converters.Auto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
@@ -9,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 @RestController
-class HelloWorldController1 {
+public class HelloWorldController1 {
 
     @Autowired
     private LoadBalancerClient client;
