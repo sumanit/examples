@@ -1,9 +1,3 @@
 management:
   endpoints:
-    web:
-      exposure:
-        include: "*"
-debug: true
-spring:
-  mvc:
-    static-path-pattern: /static/**
+    enabled-by-default: true

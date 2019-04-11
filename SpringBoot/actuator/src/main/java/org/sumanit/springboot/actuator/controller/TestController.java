@@ -16,5 +16,4 @@ public class TestController {
         System.out.println("执行了all");
         return "all";
     }
-
 }
