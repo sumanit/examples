@@ -1,12 +1,7 @@
 package org.sumanit.springboot.actuator.endpoint;
 
 import org.springframework.boot.actuate.endpoint.annotation.*;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.sumanit.springboot.actuator.model.User;
 
 @Endpoint(id = "hello")
