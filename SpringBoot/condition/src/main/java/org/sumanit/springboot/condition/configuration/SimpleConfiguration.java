@@ -11,13 +11,11 @@ import org.sumanit.springboot.condition.model.Teacher;
 @Configuration
 public class SimpleConfiguration {
 
-    @Bean
-    protected Student student(){
-        return new Student();
-    }
     @Bean(name = "teacher",destroyMethod = "destory",initMethod = "init")
-    @ConditionalOnSimple()
+    @ConditionalOnSimple("simple1")
+    @ConditionalOnSimple("simple2")
     @ConditionalOnClass(Student.class)
+    @ConditionalOnBean(Teacher.class)
     protected Teacher teacher(){
         Teacher teacher = new Teacher();
         teacher.setName("苏曼");

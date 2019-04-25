@@ -10,7 +10,6 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Conditional(OnSimpleCondition.class)
-@Repeatable(ConditionalOnSimples.class)
-public @interface ConditionalOnSimple {
-    String value() default "";
+public @interface ConditionalOnSimples {
+    ConditionalOnSimple[] value();
 }
