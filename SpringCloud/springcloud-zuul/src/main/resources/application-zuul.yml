@@ -1,0 +1,9 @@
+zuul:
+  ignoredServices: '*'
+  routes:
+    users:
+      path: /user/**
+      url: http://127.0.0.1:8082/user
+    infos:
+      path: /info/**
+      url: http://127.0.0.1:8081/info

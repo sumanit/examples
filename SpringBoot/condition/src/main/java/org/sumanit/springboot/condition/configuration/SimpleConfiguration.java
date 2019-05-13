@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.sumanit.springboot.condition.annotation.ConditionalOnSimple;
 import org.sumanit.springboot.condition.model.Student;
 import org.sumanit.springboot.condition.model.Teacher;
-
+-
 @Configuration
 public class SimpleConfiguration {
 
