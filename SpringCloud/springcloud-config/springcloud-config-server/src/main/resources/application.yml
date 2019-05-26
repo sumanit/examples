@@ -5,7 +5,7 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/zhaoyibo/spring-cloud-study # 配置git仓库的地址
-          search-paths: config-repo # git仓库地址下的相对地址，可以配置多个，用,分割。
+          uri: https://github.com/sumanit/examples # 配置git仓库的地址
+          search-paths: SpringCloud/springcloud-config/configRepo/ # git仓库地址下的相对地址，可以配置多个，用,分割。
 server:
   port: 8080
