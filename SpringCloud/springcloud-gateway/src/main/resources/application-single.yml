@@ -1,34 +1,18 @@
 spring:
-  application:
-    name: cloud-gateway
   cloud:
     gateway:
       routes:
-        - id: baidu
-          uri: https://www.baidu.com
-          order: 10000
-          predicates:
-            - Path=/baidu/**
-          filters:
-            - SetPath=/
-        - id: tencent
-          uri: https://www.tencent.com/zh-cn/index.html
-          order: 10000
-          predicates:
-            - Path=/tencent/**
-          filters:
-            - SetPath=/
-        - id: alibaba
-          uri: https://www.aliyun.com/
-          order: 10000
-          predicates:
-            - Path=/alibaba/**
-          filters:
-            - SetPath=/
-        - id: map
-          uri: https://map.baidu.com
-          order: 10000
-          predicates:
-            - Path=/baidumap/**
-          filters:
-            - SetPath=/
+      - id: baidu
+        uri: https://www.baidu.com
+        order: 10000
+        predicates:
+          - name: Path
+            args:
+              path1: /baidu/**
+              path2: /tencent/**
+        filters:
+          - SetPath=/
+
+logging:
+  level:
+    org.springframework.cloud.gateway: debug
