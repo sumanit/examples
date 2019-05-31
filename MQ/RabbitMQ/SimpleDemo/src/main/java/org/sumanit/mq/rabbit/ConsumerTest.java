@@ -28,20 +28,21 @@ public class ConsumerTest {
         Channel channel = connection.createChannel();
 
         // 声明一个队列
-        String QUEUE_NAME = "hello";
-        channel.queueDeclare(QUEUE_NAME, false, false, false, null);
+        String QUEUE_NAME = "queue.priority";
         System.out.println("Consumer Wating Receive Message");
-
+        // 仅能获取100条未ack数据
+        channel.basicQos(100);
         // 创建消费者
         Consumer consumer = new DefaultConsumer(channel){
             @Override
             public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
                 String message = new String(body, "UTF-8");
                 System.out.println(" [C] Received '" + message + "'");
+                channel.basicAck(envelope.getDeliveryTag(),false);
             }
         };
 
         // 订阅消息
-        channel.basicConsume(QUEUE_NAME, true, consumer);
+        channel.basicConsume(QUEUE_NAME, false, consumer);
     }
 }
