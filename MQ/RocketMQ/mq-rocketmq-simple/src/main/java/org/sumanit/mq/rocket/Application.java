@@ -65,6 +65,7 @@ public class Application {
         // 生产者实例不在使用时进行关闭.
         // producer.shutdown();
     }
+
     public static void sendOneWayMessage() throws Exception{
         // 使用组名实例化生产者.
         DefaultMQProducer producer = new DefaultMQProducer("please_rename_unique_group_name");
