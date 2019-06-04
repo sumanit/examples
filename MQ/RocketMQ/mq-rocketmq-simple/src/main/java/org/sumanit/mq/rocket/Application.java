@@ -1,6 +1,8 @@
 package org.sumanit.mq.rocket;
 
+import org.apache.rocketmq.client.consumer.DefaultMQPullConsumer;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
+import org.apache.rocketmq.client.consumer.PullResult;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
 import org.apache.rocketmq.client.consumer.listener.MessageListenerConcurrently;
@@ -10,13 +12,16 @@ import org.apache.rocketmq.client.producer.SendCallback;
 import org.apache.rocketmq.client.producer.SendResult;
 import org.apache.rocketmq.common.message.Message;
 import org.apache.rocketmq.common.message.MessageExt;
+import org.apache.rocketmq.common.message.MessageQueue;
 import org.apache.rocketmq.remoting.common.RemotingHelper;
 
 import java.util.List;
+import java.util.Set;
 
 public class Application {
     public static void main(String[] args) throws Exception {
-        consumeMessage();
+        consumePullMessage();
+       // senSyncMessage();
     }
     public static void senSyncMessage()throws Exception {
         // 使用组名来初始化一个生产者
@@ -86,7 +91,7 @@ public class Application {
 
     }
 
-    public static void consumeMessage() throws MQClientException {
+    public static void consumePushMessage() throws MQClientException {
         // 用组名实例化消费者.
         DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("please_rename_unique_group_name");
 
@@ -107,6 +112,28 @@ public class Application {
 
         // 启动消费者实例.
         consumer.start();
+
+        System.out.printf("Consumer Started.%n");
+    }
+    public static void consumePullMessage() throws Exception {
+        // 用组名实例化消费者.
+        DefaultMQPullConsumer consumer = new DefaultMQPullConsumer("sumanGroup");
+
+        // 指定NameServer 地址.
+        consumer.setNamesrvAddr("localhost:9876");
+        consumer.start();
+
+        Set<MessageQueue> messageQueues = consumer.fetchSubscribeMessageQueues("TopicTest");
+        MessageQueue[] messageQueueArr = messageQueues.toArray(new MessageQueue[]{});
+        long offset = consumer.fetchConsumeOffset(messageQueueArr[0],true);
+        System.out.println(offset);
+        PullResult pull = consumer.pullBlockIfNotFound(messageQueueArr[0], "*", offset, 5);
+        pull.getMsgFoundList().forEach(item->System.out.println(new String(item.getBody())));
+        consumer.updateConsumeOffset(messageQueueArr[0],pull.getNextBeginOffset());
+        consumer.getOffsetStore().persist(messageQueueArr[0]);
+
+        /* 启动消费者实例. */
+
 
         System.out.printf("Consumer Started.%n");
     }
