@@ -1,7 +1,13 @@
 spring:
   rabbitmq:
     addresses: 127.0.0.1
+<<<<<<< HEAD
     username: guest
     password: guest
     virtual-host: sumanit
+=======
+    virtual-host: /
+    username: guest
+    password: guest
+>>>>>>> a64b8d188539ca9909c610990b52818bacd0b009
     publisher-confirms: true
