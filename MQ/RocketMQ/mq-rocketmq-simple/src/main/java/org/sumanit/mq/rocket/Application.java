@@ -1,6 +1,8 @@
 package org.sumanit.mq.rocket;
 
+import org.apache.rocketmq.client.consumer.DefaultMQPullConsumer;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
+import org.apache.rocketmq.client.consumer.PullResult;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
 import org.apache.rocketmq.client.consumer.listener.MessageListenerConcurrently;
@@ -12,11 +14,17 @@ import org.apache.rocketmq.common.message.MessageQueue;
 import org.apache.rocketmq.remoting.common.RemotingHelper;
 
 import java.util.List;
+import java.util.Set;
 
 public class Application {
     public static void main(String[] args) throws Exception {
+<<<<<<< HEAD
         //senSyncMessage();
         sendOrderMessage();
+=======
+        consumePullMessage();
+       // senSyncMessage();
+>>>>>>> d69168d5147f6050c09bc5bf862b09f3a00b5f3e
     }
     public static void senSyncMessage()throws Exception {
         // 使用组名来初始化一个生产者
@@ -65,6 +73,7 @@ public class Application {
         // 生产者实例不在使用时进行关闭.
         // producer.shutdown();
     }
+
     public static void sendOneWayMessage() throws Exception{
         // 使用组名实例化生产者.
         DefaultMQProducer producer = new DefaultMQProducer("please_rename_unique_group_name");
@@ -85,6 +94,7 @@ public class Application {
 
     }
 
+<<<<<<< HEAD
     public static void sendOrderMessage() throws Exception{
 
         DefaultMQProducer producer = new DefaultMQProducer("please_rename_unique_group_name");
@@ -112,6 +122,9 @@ public class Application {
     }
 
     public static void consumeMessage() throws MQClientException {
+=======
+    public static void consumePushMessage() throws MQClientException {
+>>>>>>> d69168d5147f6050c09bc5bf862b09f3a00b5f3e
         // 用组名实例化消费者.
         DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("please_rename_unique_group_name");
 
@@ -132,6 +145,28 @@ public class Application {
 
         // 启动消费者实例.
         consumer.start();
+        System.out.printf("Consumer Started.%n");
+    }
+    public static void consumePullMessage() throws Exception {
+        // 用组名实例化消费者.
+        DefaultMQPullConsumer consumer = new DefaultMQPullConsumer("sumanGroup");
+
+        // 指定NameServer 地址.
+        consumer.setNamesrvAddr("localhost:9876");
+        consumer.start();
+
+        Set<MessageQueue> messageQueues = consumer.fetchSubscribeMessageQueues("TopicTest");
+        MessageQueue[] messageQueueArr = messageQueues.toArray(new MessageQueue[]{});
+        long offset = consumer.fetchConsumeOffset(messageQueueArr[0],true);
+        System.out.println(offset);
+        PullResult pull = consumer.pullBlockIfNotFound(messageQueueArr[0], "*", offset, 5);
+        pull.getMsgFoundList().forEach(item->System.out.println(new String(item.getBody())));
+        consumer.updateConsumeOffset(messageQueueArr[0],pull.getNextBeginOffset());
+        consumer.getOffsetStore().persist(messageQueueArr[0]);
+
+        /* 启动消费者实例. */
+
+
         System.out.printf("Consumer Started.%n");
     }
 }
