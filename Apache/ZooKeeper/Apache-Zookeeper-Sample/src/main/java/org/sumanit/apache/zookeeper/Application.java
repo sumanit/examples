@@ -1,9 +1,8 @@
 package org.sumanit.apache.zookeeper;
 
-import org.apache.zookeeper.*;
-
-import java.util.Collections;
-import java.util.List;
+import org.apache.zookeeper.WatchedEvent;
+import org.apache.zookeeper.Watcher;
+import org.apache.zookeeper.ZooKeeper;
 
 public class Application {
     public static void main(String[] args) throws Exception {
@@ -14,11 +13,7 @@ public class Application {
             }
         },true);
 
-        zooKeeper.create("/eee1","ddd".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
-        List<String> children = zooKeeper.getChildren("/", false);
-        for (String child : children) {
-            System.out.println(child);
-        }
+
 
     }
 }

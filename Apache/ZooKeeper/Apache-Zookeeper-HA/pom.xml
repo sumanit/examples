@@ -3,17 +3,14 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>Apache-ZooKeeper</artifactId>
+        <artifactId>Apache-Zookeeper-Sample</artifactId>
         <groupId>org.sumanit</groupId>
         <version>1.0-SNAPSHOT</version>
+        <relativePath>../Apache-Zookeeper-Sample/pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>Apache-Zookeeper-Sample</artifactId>
-    <packaging>pom</packaging>
-    <modules>
-        <module>../Apache-Zookeeper-HA</module>
-    </modules>
+    <artifactId>Apache-Zookeeper-HA</artifactId>
 
 
 </project>
