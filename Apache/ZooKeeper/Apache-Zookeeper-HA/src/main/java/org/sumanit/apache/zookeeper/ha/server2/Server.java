@@ -1,4 +1,4 @@
-package org.sumanit.apache.zookeeper.ha;
+package org.sumanit.apache.zookeeper.ha.server2;
 
 import org.apache.zookeeper.*;
 import org.springframework.beans.factory.InitializingBean;

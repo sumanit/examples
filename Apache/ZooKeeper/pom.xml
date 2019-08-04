@@ -12,6 +12,8 @@
         <module>Apache-Zookeeper-Sample</module>
         <module>Apache-Zookeeper-Conifg</module>
         <module>Apache-Zookeeper-Config</module>
+        <module>Apache-Zookeeper-Lock</module>
+        <module>Apache-Zookeeper-NameService</module>
     </modules>
 
     <parent>
