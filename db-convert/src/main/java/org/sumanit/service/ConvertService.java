@@ -7,10 +7,6 @@ import javax.annotation.Resource;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by 苏曼 on 2019/11/26.
@@ -23,7 +19,7 @@ public class ConvertService {
 
     public void convert() throws SQLException {
         DatabaseMetaData metaData = jdbcTemplate.getDataSource().getConnection().getMetaData();
-        ResultSet tables = metaData.getTables(null, "%", "%", new String[]{"TABLE"});
+        ResultSet tables = metaData.getTables(null, "YW", "%", new String[]{"TABLE"});
         while(tables.next()){
             StringBuilder sb = new StringBuilder();
             String tableName = tables.getString("TABLE_NAME");
@@ -40,7 +36,7 @@ public class ConvertService {
             if(tableName.startsWith("pathman")){
                 continue;
             }
-            sb.append("CREATE TABLE ").append(tableName).append("(");
+            sb.append("CREATE TABLE ").append(tableName.toLowerCase()).append("(");
             ResultSet columns = metaData.getColumns(null, "%", tableName, "%");
             String pkColumn = null;
             while(columns.next()){
@@ -51,12 +47,16 @@ public class ConvertService {
                 if(columnSize>1000){
                     columnSize=255;
                 }
+                if(newColumnType ==null){
+                    System.out.println(tableName+":"+columnName+":"+columnType);
+                }
                 if(newColumnType ==null || newColumnType.equals("varchar")){
+
                     newColumnType = "varchar("+columnSize+")";
                 }
 
 
-                sb.append("`").append(columnName).append("`").append(" ").append(newColumnType);
+                sb.append(columnName.toLowerCase()).append(" ").append(newColumnType);
 
 
                 int nullable = columns.getInt("NULLABLE");
@@ -82,9 +82,19 @@ public class ConvertService {
                     if(columnDef.contains("::")){
                         columnDef= columnDef.split("::")[0];
                     }
-                    if(columnDef.startsWith("nextval")){
 
-                    }else {
+                    if(columnDef.contains("sysdate")){
+                        columnDef = "now()";
+                    }
+                    if(columnDef.contains("sys_guid()")){
+                        columnDef = "uuid_generate_v1()";
+                    }
+
+                    if(columnDef.startsWith("nextval")){
+                        System.out.println(tableName);
+
+                    }
+                    else {
                         sb.append(" default ").append(columnDef);
                     }
                 }
@@ -100,8 +110,8 @@ public class ConvertService {
             }
             sb.setLength(sb.length()-2);
             sb.append(");");
-            System.out.println(sb.toString());
-            ResultSet indexInfos = metaData.getIndexInfo(null, tables.getString("TABLE_SCHEM"), tableName, false, false);
+           // System.out.println(sb.toString());
+            /*ResultSet indexInfos = metaData.getIndexInfo(null, tables.getString("TABLE_SCHEM"), tableName, false, false);
 
 
             Map<String, List<String>> indexMap = new HashMap<>();
@@ -128,7 +138,7 @@ public class ConvertService {
                 sb.setLength(sb.length()-1);
                 sb.append(");");
                 System.out.println(sb.toString());
-            });
+            });*/
         }
 
 
@@ -158,8 +168,12 @@ public class ConvertService {
                 return "DATE";
             case "time":
                 return "TIME";
+            case "NUMBER":
+                return "int4";
+            case "VARCHAR2":
+                return "varchar";
         }
-        //System.out.println(srcType);
+       // System.out.println(srcType);
         return null;
 
     }

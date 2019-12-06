@@ -2,10 +2,10 @@ spring:
   application:
     name: VVAS-DataCenter-Process
   datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://pgm-2ze197c18ro6p1r1fo.pg.rds.aliyuncs.com:3433/ShoppingMall_retail2.0
-    username: vion
-    password: cdmqYwBq9uAdvLJb
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+    url: jdbc:oracle:thin:yw/yw@192.168.9.208:1521:orcl
+    username: yw
+    password: yw
     druid:
       initial-size: 0
       min-idle: 5
