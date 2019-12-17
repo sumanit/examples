@@ -14,6 +14,7 @@
         <module>Apache-Zookeeper-Config</module>
         <module>Apache-Zookeeper-Lock</module>
         <module>Apache-Zookeeper-NameService</module>
+        <module>Apache-Zookeeper-Kafka</module>
     </modules>
 
     <parent>

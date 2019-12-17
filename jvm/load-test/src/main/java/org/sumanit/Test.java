@@ -6,4 +6,9 @@ package org.sumanit;
 public class Test {
 
     private int value = 1;
+
+    public void metehod(){
+        int ddd = 12;
+        System.out.println(value);
+    }
 }
